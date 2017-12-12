@@ -1,0 +1,22 @@
+{
+  "name": "di-dot-fm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "di-dot-fm.js",
+  "scripts": {
+    "generate-model": "node generate-model",
+    "test": "mocha intent/**/*.spec.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "alexa-app": "^4.2.0",
+    "ssml-builder": "^0.4.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "express": "^4.16.2",
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
+  }
+}

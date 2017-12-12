@@ -1,0 +1,8 @@
+{
+  "name": "alexa-skill-di-dot-fm",
+  "description": "",
+  "memory": 128,
+  "timeout": 5,
+  "role": "arn:aws:iam::470860202478:role/alexa-skill-di-dot-fm_lambda_function",
+  "environment": {}
+}
