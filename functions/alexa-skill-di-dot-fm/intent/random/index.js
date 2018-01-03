@@ -21,6 +21,10 @@ module.exports = {
         'Please wait one second'
       ];
 
+      const channel = channelList[Math.floor(Math.random() * channelList.length)];
+
+      const stream = `https://rocky-coast-74584.herokuapp.com/${channel.id}_hi?code=4fa197a742c8340b`;
+
       const speech = new AmazonSpeech();
 
       speech
@@ -29,10 +33,17 @@ module.exports = {
         .pause('1s')
         .say('Ok')
         .pause('500ms')
-        .say(`playing channel, ${channelList[Math.floor(Math.random() * channelList.length)]}.`)
+        .say(`playing channel, ${channel.name}.`)
       ;
 
-      res.say(speech.ssml());
+      res
+        .say(speech.ssml())
+        .audioPlayerPlayStream('REPLACE_ALL', {
+          offsetInMilliseconds: 0,
+          token: stream,
+          url: stream
+        })
+      ;
     }
   ]
 };

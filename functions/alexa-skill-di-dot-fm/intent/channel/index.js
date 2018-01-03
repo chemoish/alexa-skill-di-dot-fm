@@ -20,7 +20,7 @@ module.exports = {
 
       const slot = req.slot('CHANNEL');
 
-      const channel = channelList.find((channel) => channel.toLowerCase() === slot.toLowerCase());
+      const channel = channelList.find((channel) => channel.name.toLowerCase() === slot.toLowerCase());
 
       if (!channel) {
         const speech = new AmazonSpeech();
@@ -38,12 +38,14 @@ module.exports = {
         ;
       }
 
+      const stream = `https://rocky-coast-74584.herokuapp.com/${channel.id}_hi?code=4fa197a742c8340b`;
+
       res
-        .say(`Playing channel, ${channel}.`)
+        .say(`Playing channel, ${channel.name}.`)
         .audioPlayerPlayStream('REPLACE_ALL', {
           offsetInMilliseconds: 0,
-          token: 'https://rocky-coast-74584.herokuapp.com/vocaltrance_hi?code=4fa197a742c8340b',
-          url: 'https://rocky-coast-74584.herokuapp.com/vocaltrance_hi?code=4fa197a742c8340b'
+          token: stream,
+          url: stream
         })
       ;
     }
