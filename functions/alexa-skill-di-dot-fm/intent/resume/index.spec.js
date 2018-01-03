@@ -2,12 +2,12 @@ const chai = require('chai');
 const express = require('express');
 
 const { createServerFromIntent, makeIntentRequestFromServer } = require('../../util/test');
-const { HelpIntent } = require('../type');
 const { log } = require('../../util/log');
+const { ResumeIntent } = require('../type');
 
 const { expect } = chai;
 
-describe(HelpIntent, () => {
+describe(ResumeIntent, () => {
   let intentRequest;
   let mock;
   let server;
@@ -24,20 +24,20 @@ describe(HelpIntent, () => {
     server.close();
   });
 
-  it('Should respond to a help intent.', () => {
+  it('Should respond to a resume intent.', () => {
     return intentRequest(mock)
       .expect(200).then((response) => {
         const {
+          directives,
           outputSpeech,
-          reprompt,
-          shouldEndSession
         } = response.body.response;
 
         log(response.body.response, true);
 
-        expect(outputSpeech.ssml).to.equal('<speak>You can say "play channel Vocal Trance" or simply, "what can you do?".</speak>');
-        expect(reprompt.outputSpeech.ssml).to.equal('<speak>What would you like to do?</speak>');
-        expect(shouldEndSession).to.be.false;
+        expect(directives[0].audioItem.stream.offsetInMilliseconds).to.equal(0);
+        expect(directives[0].audioItem.stream.token).to.equal('music.mp3');
+        expect(directives[0].audioItem.stream.url).to.equal('music.mp3');
+        expect(directives[0].playBehavior).to.equal('REPLACE_ALL');
       })
     ;
   });

@@ -1,17 +1,25 @@
-const express = require('express');
-const request = require('supertest');
 const chai = require('chai');
+const express = require('express');
+const merge = require('lodash/merge');
+const request = require('supertest');
 
 const { ChannelIntent } = require('../type');
-const { createServerFromIntent } = require('../../test/utility');
+const { createServerFromIntent, makeIntentRequestFromServer } = require('../../util/test');
+const { log } = require('../../util/log');
 
 const { expect } = chai;
 
 describe(ChannelIntent, () => {
+  let intentRequest;
+  let mock;
   let server;
 
   beforeEach(() => {
     server = createServerFromIntent(require('./index'));
+
+    intentRequest = makeIntentRequestFromServer(server);
+
+    mock = require('./index.mock');
   });
 
   afterEach(() => {
@@ -19,24 +27,20 @@ describe(ChannelIntent, () => {
   });
 
   it('Should respond to a channel intent with empty slot.', () => {
-    return request(server)
-      .post('/di-dot-fm')
-      .send({
-        request: {
-          type: 'IntentRequest',
-          intent: {
-            name: ChannelIntent,
-            slots: {
-              CHANNEL: {
-                name: 'CHANNEL',
-                value: ''
-              }
-            }
-          }
+    merge(mock.request.intent, {
+      slots: {
+        CHANNEL: {
+          name: 'CHANNEL',
+          value: ''
         }
-      })
+      }
+    });
+
+    return intentRequest(mock)
       .expect(200).then((response) => {
         const { ssml } = response.body.response.outputSpeech;
+
+        log(response.body.response, true);
 
         expect(ssml).to.equal("<speak>Sorry, unable to find channel . Try another channel <break time='400ms'/> Or simply say, what can you do?</speak>");
       })
@@ -44,24 +48,20 @@ describe(ChannelIntent, () => {
   });
 
   it('Should respond to a channel intent with valid slot.', () => {
-    return request(server)
-      .post('/di-dot-fm')
-      .send({
-        request: {
-          type: 'IntentRequest',
-          intent: {
-            name: ChannelIntent,
-            slots: {
-              CHANNEL: {
-                name: 'CHANNEL',
-                value: 'Vocal Trance'
-              }
-            }
-          }
+    merge(mock.request.intent, {
+      slots: {
+        CHANNEL: {
+          name: 'CHANNEL',
+          value: 'Vocal Trance'
         }
-      })
+      }
+    });
+
+    return intentRequest(mock)
       .expect(200).then((response) => {
         const { ssml } = response.body.response.outputSpeech;
+
+        log(response.body.response, true);
 
         expect(ssml).to.equal('<speak>Playing channel, Vocal Trance.</speak>');
       })
@@ -69,24 +69,20 @@ describe(ChannelIntent, () => {
   });
 
   it('Should respond to a channel intent with case insensitive slot.', () => {
-    return request(server)
-      .post('/di-dot-fm')
-      .send({
-        request: {
-          type: 'IntentRequest',
-          intent: {
-            name: ChannelIntent,
-            slots: {
-              CHANNEL: {
-                name: 'CHANNEL',
-                value: 'vocal trance'
-              }
-            }
-          }
+    merge(mock.request.intent, {
+      slots: {
+        CHANNEL: {
+          name: 'CHANNEL',
+          value: 'vocal trance'
         }
-      })
+      }
+    });
+
+    return intentRequest(mock)
       .expect(200).then((response) => {
         const { ssml } = response.body.response.outputSpeech;
+
+        log(response.body.response, true);
 
         expect(ssml).to.equal('<speak>Playing channel, Vocal Trance.</speak>');
       })
@@ -94,24 +90,20 @@ describe(ChannelIntent, () => {
   });
 
   it('Should respond to a channel intent with invalid slot.', () => {
-    return request(server)
-      .post('/di-dot-fm')
-      .send({
-        request: {
-          type: 'IntentRequest',
-          intent: {
-            name: ChannelIntent,
-            slots: {
-              CHANNEL: {
-                name: 'CHANNEL',
-                value: 'Rick Astley'
-              }
-            }
-          }
+    merge(mock.request.intent, {
+      slots: {
+        CHANNEL: {
+          name: 'CHANNEL',
+          value: 'Rick Astley'
         }
-      })
+      }
+    });
+
+    return intentRequest(mock)
       .expect(200).then((response) => {
         const { ssml } = response.body.response.outputSpeech;
+
+        log(response.body.response, true);
 
         expect(ssml).to.equal("<speak>Sorry, unable to find channel Rick Astley. Try another channel <break time='400ms'/> Or simply say, what can you do?</speak>");
       })

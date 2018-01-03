@@ -1,11 +1,12 @@
+const { log } = require('../../util/log');
 const { PauseIntent } = require('../type');
 
-module.exports = [
-  PauseIntent,
+module.exports = {
+  [PauseIntent]: [
+    (req, res) => {
+      log(PauseIntent);
 
-  (req, res) => {
-    console.log(PauseIntent);
-
-    res.say('Pause Intent.');
-  }
-];
+      res.audioPlayerStop();
+    }
+  ]
+};

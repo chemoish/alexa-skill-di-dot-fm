@@ -1,13 +1,13 @@
 const chai = require('chai');
-const express = require('express');
+const request = require('supertest');
 
 const { createServerFromIntent, makeIntentRequestFromServer } = require('../../util/test');
-const { HelpIntent } = require('../type');
+const { InstructionIntent } = require('../type');
 const { log } = require('../../util/log');
 
 const { expect } = chai;
 
-describe(HelpIntent, () => {
+describe(InstructionIntent, () => {
   let intentRequest;
   let mock;
   let server;
@@ -24,7 +24,7 @@ describe(HelpIntent, () => {
     server.close();
   });
 
-  it('Should respond to a help intent.', () => {
+  it('Should respond to a instruction intent.', () => {
     return intentRequest(mock)
       .expect(200).then((response) => {
         const {
@@ -35,7 +35,7 @@ describe(HelpIntent, () => {
 
         log(response.body.response, true);
 
-        expect(outputSpeech.ssml).to.equal('<speak>You can say "play channel Vocal Trance" or simply, "what can you do?".</speak>');
+        expect(outputSpeech.ssml).to.equal('<speak>I can "play a channel by name", "play a random channel", or "list the available channels."</speak>');
         expect(reprompt.outputSpeech.ssml).to.equal('<speak>What would you like to do?</speak>');
         expect(shouldEndSession).to.be.false;
       })

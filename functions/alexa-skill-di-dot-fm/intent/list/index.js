@@ -1,11 +1,12 @@
 const { ListIntent } = require('../type');
+const { log } = require('../../util/log');
 
-module.exports = [
-  ListIntent,
+module.exports = {
+  [ListIntent]: [
+    (req, res) => {
+      log(ListIntent);
 
-  (req, res) => {
-    console.log(ListIntent);
-
-    res.say('List Intent.');
-  }
-];
+      res.say('List Intent.');
+    }
+  ]
+};

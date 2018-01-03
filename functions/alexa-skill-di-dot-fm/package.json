@@ -5,12 +5,14 @@
   "main": "di-dot-fm.js",
   "scripts": {
     "generate-model": "node generate-model",
-    "test": "mocha intent/**/*.spec.js"
+    "test:debug": "DEBUG=true npm test",
+    "test": "NODE_ENV=test mocha intent/**/*.spec.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "alexa-app": "^4.2.0",
+    "lodash": "^4.17.4",
     "ssml-builder": "^0.4.0"
   },
   "devDependencies": {

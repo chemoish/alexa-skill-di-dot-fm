@@ -1,10 +1,10 @@
 module.exports = {
   HelpIntent: 'AMAZON.HelpIntent',
-  InstructionIntent: 'InstructionIntent',
   PauseIntent: 'AMAZON.PauseIntent',
   ResumeIntent: 'AMAZON.ResumeIntent',
 
   ChannelIntent: 'ChannelIntent',
+  InstructionIntent: 'InstructionIntent',
   ListIntent: 'ListIntent',
   RandomIntent: 'RandomIntent'
 };
