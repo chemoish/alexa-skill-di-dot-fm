@@ -4,6 +4,7 @@
   "description": "",
   "main": "di-dot-fm.js",
   "scripts": {
+    "deploy": "(cd ../.. && apex deploy)",
     "generate-model": "node generate-model",
     "test:debug": "DEBUG=true npm test",
     "test": "NODE_ENV=test mocha intent/**/*.spec.js"
