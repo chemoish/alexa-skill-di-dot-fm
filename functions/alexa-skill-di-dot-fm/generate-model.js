@@ -17,7 +17,7 @@ Object.keys(app.customSlots).forEach((key) => {
   const file = `${dir}/${key}.json`;
 
   fs.writeFile(file, app.customSlots[key]
-    .map((value) => value.value)
+    .map((value) => value.name)
     .join('\n'))
   ;
 
